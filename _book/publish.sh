@@ -14,3 +14,4 @@ rm -rf publish.sh
 git add .
 git commit -m 'publish gitbook'
 git push origin master
+git checkout build
