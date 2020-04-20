@@ -77,7 +77,7 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../数组/" />
+    <link rel="next" href="二叉树遍历/Traverse.html" />
     
     
     <link rel="prev" href="../" />
@@ -147,6 +147,25 @@
             
 
             
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1" data-path="二叉树遍历/Traverse.html">
+            
+                <a href="二叉树遍历/Traverse.html">
+            
+                    
+                    二叉树遍历
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
         </li>
     
         <li class="chapter " data-level="1.2.2" data-path="../数组/">
@@ -173,6 +192,45 @@
             
                     
                     操作系统与网络
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../../system_design/">
+            
+                <a href="../../system_design/">
+            
+                    
+                    系统设计与实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../../golang/">
+            
+                <a href="../../golang/">
+            
+                    
+                    Golang底层实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../../distributed/">
+            
+                <a href="../../distributed/">
+            
+                    
+                    分布式系统设计
             
                 </a>
             
@@ -225,7 +283,46 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <p>&#x6811;</p>
+                                <h3 id="&#x4E8C;&#x53C9;&#x6811;&#x8282;&#x70B9;&#x5B9A;&#x4E49;">&#x4E8C;&#x53C9;&#x6811;&#x8282;&#x70B9;&#x5B9A;&#x4E49;</h3>
+<pre><code class="lang-go"><span class="hljs-keyword">type</span> TreeNode <span class="hljs-keyword">struct</span> {
+    Val   <span class="hljs-keyword">int</span>
+    Left  *TreeNode
+    Right *TreeNode
+}
+</code></pre>
+<h3 id="&#x6808;&#x5B9A;&#x4E49;">&#x6808;&#x5B9A;&#x4E49;</h3>
+<pre><code class="lang-go"><span class="hljs-keyword">type</span> Stack <span class="hljs-keyword">struct</span> {
+    stack *list.List
+}
+
+<span class="hljs-keyword">func</span> NewStack() Stack{
+    <span class="hljs-keyword">return</span> Stack{stack:list.New()}
+}
+
+<span class="hljs-keyword">func</span> (stack Stack) Push(element <span class="hljs-keyword">interface</span>{}){
+    stack.stack.PushBack(element)
+}
+
+<span class="hljs-keyword">func</span> (stack Stack) Pop() <span class="hljs-keyword">interface</span>{}{
+    e := stack.stack.Back()
+    <span class="hljs-keyword">if</span> e == <span class="hljs-literal">nil</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>
+    }
+    stack.stack.Remove(e)
+    <span class="hljs-keyword">return</span> e
+}
+
+<span class="hljs-keyword">func</span> (stack Stack) Len() <span class="hljs-keyword">int</span> {
+    <span class="hljs-keyword">return</span> stack.stack.Len()
+}
+
+<span class="hljs-keyword">func</span> (stack Stack) Empty() <span class="hljs-keyword">bool</span>{
+    <span class="hljs-keyword">if</span> stack.stack.Len() &gt; <span class="hljs-number">0</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+}
+</code></pre>
 
                                 
                                 </section>
@@ -258,7 +355,7 @@
                 </a>
                 
                 
-                <a href="../数组/" class="navigation navigation-next " aria-label="Next page: 数组">
+                <a href="二叉树遍历/Traverse.html" class="navigation navigation-next " aria-label="Next page: 二叉树遍历">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -269,7 +366,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"树","level":"1.2.1","depth":2,"next":{"title":"数组","level":"1.2.2","depth":2,"path":"algorithm/数组/README.md","ref":"algorithm/数组/README.md","articles":[]},"previous":{"title":"数据结构与算法","level":"1.2","depth":1,"path":"algorithm/README.md","ref":"algorithm/README.md","articles":[{"title":"树","level":"1.2.1","depth":2,"path":"algorithm/树/README.md","ref":"algorithm/树/README.md","articles":[]},{"title":"数组","level":"1.2.2","depth":2,"path":"algorithm/数组/README.md","ref":"algorithm/数组/README.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["chapter-fold","back-to-top-button","hide-element","code","splitter","pageview-count"],"pluginsConfig":{"chapter-fold":{},"splitter":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"back-to-top-button":{},"pageview-count":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"algorithm/树/README.md","mtime":"2020-04-20T09:24:41.925Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-20T09:26:11.612Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"树","level":"1.2.1","depth":2,"next":{"title":"二叉树遍历","level":"1.2.1.1","depth":3,"path":"algorithm/树/二叉树遍历/Traverse.md","ref":"algorithm/树/二叉树遍历/Traverse.md","articles":[]},"previous":{"title":"数据结构与算法","level":"1.2","depth":1,"path":"algorithm/README.md","ref":"algorithm/README.md","articles":[{"title":"树","level":"1.2.1","depth":2,"path":"algorithm/树/README.md","ref":"algorithm/树/README.md","articles":[{"title":"二叉树遍历","level":"1.2.1.1","depth":3,"path":"algorithm/树/二叉树遍历/Traverse.md","ref":"algorithm/树/二叉树遍历/Traverse.md","articles":[]}]},{"title":"数组","level":"1.2.2","depth":2,"path":"algorithm/数组/README.md","ref":"algorithm/数组/README.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["chapter-fold","back-to-top-button","hide-element","code","splitter","pageview-count"],"pluginsConfig":{"chapter-fold":{},"splitter":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"back-to-top-button":{},"pageview-count":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"algorithm/树/README.md","mtime":"2020-04-20T10:03:46.328Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-20T10:20:20.088Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
