@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>283.移动零 · GitBook</title>
+        <title>TCP · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -77,7 +77,7 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../../os_network/" />
+    <link rel="next" href="../../system_design/" />
     
     
     <link rel="prev" href="./" />
@@ -122,9 +122,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2" data-path="../">
+        <li class="chapter " data-level="1.2" data-path="../../algorithm/">
             
-                <a href="../">
+                <a href="../../algorithm/">
             
                     
                     数据结构与算法
@@ -136,9 +136,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.2.1" data-path="../树/">
+        <li class="chapter " data-level="1.2.1" data-path="../../algorithm/树/">
             
-                <a href="../树/">
+                <a href="../../algorithm/树/">
             
                     
                     树
@@ -150,9 +150,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.2.1.1" data-path="../树/二叉树遍历.html">
+        <li class="chapter " data-level="1.2.1.1" data-path="../../algorithm/树/二叉树遍历.html">
             
-                <a href="../树/二叉树遍历.html">
+                <a href="../../algorithm/树/二叉树遍历.html">
             
                     
                     二叉树遍历
@@ -168,9 +168,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2.2" data-path="./">
+        <li class="chapter " data-level="1.2.2" data-path="../../algorithm/数组/">
             
-                <a href="./">
+                <a href="../../algorithm/数组/">
             
                     
                     数组
@@ -182,9 +182,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.2.2.1" data-path="283.移动零.html">
+        <li class="chapter " data-level="1.2.2.1" data-path="../../algorithm/数组/283.移动零.html">
             
-                <a href="283.移动零.html">
+                <a href="../../algorithm/数组/283.移动零.html">
             
                     
                     283.移动零
@@ -205,9 +205,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3" data-path="../../os_network/">
+        <li class="chapter " data-level="1.3" data-path="../">
             
-                <a href="../../os_network/">
+                <a href="../">
             
                     
                     操作系统与网络
@@ -219,9 +219,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.3.1" data-path="../../os_network/network/">
+        <li class="chapter " data-level="1.3.1" data-path="./">
             
-                <a href="../../os_network/network/">
+                <a href="./">
             
                     
                     计算机网络
@@ -233,9 +233,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.3.1.1" data-path="../../os_network/network/tcp_connect.html">
+        <li class="chapter active" data-level="1.3.1.1" data-path="tcp_connect.html">
             
-                <a href="../../os_network/network/tcp_connect.html">
+                <a href="tcp_connect.html">
             
                     
                     TCP
@@ -325,7 +325,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../.." >283.移动零</a>
+        <a href="../.." >TCP</a>
     </h1>
 </div>
 
@@ -340,22 +340,13 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h3 id="&#x9898;&#x76EE;&#x63CF;&#x8FF0;">&#x9898;&#x76EE;&#x63CF;&#x8FF0;</h3>
-<p>&#x7ED9;&#x5B9A;&#x4E00;&#x4E2A;&#x6570;&#x7EC4; <code>nums</code>&#xFF0C;&#x7F16;&#x5199;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x5C06;&#x6240;&#x6709; 0 &#x79FB;&#x52A8;&#x5230;&#x6570;&#x7EC4;&#x7684;&#x672B;&#x5C3E;&#xFF0C;&#x540C;&#x65F6;&#x4FDD;&#x6301;&#x975E;&#x96F6;&#x5143;&#x7D20;&#x7684;&#x76F8;&#x5BF9;&#x987A;&#x5E8F;&#x3002;</p>
-<h3 id="&#x793A;&#x4F8B;">&#x793A;&#x4F8B;</h3>
-<pre><code>&#x8F93;&#x5165;: [0,1,0,3,12]
-&#x8F93;&#x51FA;: [1,3,12,0,0]
-</code></pre><h3 id="&#x8BF4;&#x660E;">&#x8BF4;&#x660E;</h3>
-<ul>
-<li>&#x5FC5;&#x987B;&#x5728;&#x539F;&#x6570;&#x7EC4;&#x4E0A;&#x64CD;&#x4F5C;&#xFF0C;&#x4E0D;&#x80FD;&#x62F7;&#x8D1D;&#x989D;&#x5916;&#x7684;&#x6570;&#x7EC4;&#x3002;</li>
-<li>&#x5C3D;&#x91CF;&#x51CF;&#x5C11;&#x64CD;&#x4F5C;&#x6B21;&#x6570;&#x3002;</li>
-</ul>
-<h3 id="&#x5206;&#x6790;">&#x5206;&#x6790;</h3>
-<h3 id="&#x89E3;&#x7B54;">&#x89E3;&#x7B54;</h3>
-<pre><code class="lang-go"><span class="hljs-keyword">func</span> moveZeroes(nums []<span class="hljs-keyword">int</span>)  {
-
-}
-</code></pre>
+                                <h1 id="&#x8FDE;&#x63A5;&#x5EFA;&#x7ACB;">&#x8FDE;&#x63A5;&#x5EFA;&#x7ACB;</h1>
+<p>&#x7531;&#x4E8E; TCP &#x8981;&#x63D0;&#x4F9B;&#x53EF;&#x9760;&#x7684;&#x901A;&#x4FE1;&#x673A;&#x5236;&#xFF0C;&#x5728;&#x4F20;&#x8F93;&#x6570;&#x636E;&#x4E4B;&#x524D;&#xFF0C;&#x5FC5;&#x987B;&#x5148;&#x521D;&#x59CB;&#x5316;&#x4E00;&#x6761;&#x5BA2;&#x6237;&#x7AEF;&#xFF08;&#x8BF7;&#x6C42;&#x7AEF;&#xFF09;&#x5230;&#x670D;&#x52A1;&#x5668;&#xFF08;&#x88AB;&#x8BF7;&#x6C42;&#x7AEF;&#xFF09;&#x7684; TCP &#x8FDE;&#x63A5;&#xFF0C;&#x5728;&#x8FDE;&#x63A5;&#x6B63;&#x5F0F;&#x5EFA;&#x7ACB;&#x540E;&#xFF0C;&#x53CC;&#x65B9;&#x7ECF; TCP &#x8FDE;&#x63A5;&#x901A;&#x9053;&#x8FDB;&#x884C;&#x6570;&#x636E;&#x4F20;&#x8F93;&#x3002;</p>
+<h2 id="&#x4E09;&#x6B21;&#x63E1;&#x624B;">&#x4E09;&#x6B21;&#x63E1;&#x624B;</h2>
+<p>&#x4E3A;&#x4E86;&#x5EFA;&#x7ACB;&#x4E00;&#x6761;&#x53EF;&#x9760;&#x7684;&#x901A;&#x4FE1;&#x4FE1;&#x9053;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x548C;&#x670D;&#x52A1;&#x7AEF;&#x901A;&#x8FC7;&#x4E09;&#x6B21;&#x63E1;&#x624B;&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x521D;&#x59CB;&#x5316;&#x8FDE;&#x63A5;&#x3002;</p>
+<h3 id="&#x521D;&#x59CB;&#x72B6;&#x6001;">&#x521D;&#x59CB;&#x72B6;&#x6001;</h3>
+<p>&#x8FDE;&#x63A5;&#x521B;&#x5EFA;&#x524D;
+<img src="images/handShark.png" alt="avatar"></p>
 
                                 
                                 </section>
@@ -383,12 +374,12 @@
 
             
                 
-                <a href="./" class="navigation navigation-prev " aria-label="Previous page: 数组">
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: 计算机网络">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../../os_network/" class="navigation navigation-next " aria-label="Next page: 操作系统与网络">
+                <a href="../../system_design/" class="navigation navigation-next " aria-label="Next page: 系统设计与实现">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -399,7 +390,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"283.移动零","level":"1.2.2.1","depth":3,"next":{"title":"操作系统与网络","level":"1.3","depth":1,"path":"os_network/README.md","ref":"os_network/README.md","articles":[{"title":"计算机网络","level":"1.3.1","depth":2,"path":"os_network/network/README.md","ref":"os_network/network/README.md","articles":[{"title":"TCP","level":"1.3.1.1","depth":3,"path":"os_network/network/tcp_connect.md","ref":"os_network/network/tcp_connect.md","articles":[]}]}]},"previous":{"title":"数组","level":"1.2.2","depth":2,"path":"algorithm/数组/README.md","ref":"algorithm/数组/README.md","articles":[{"title":"283.移动零","level":"1.2.2.1","depth":3,"path":"algorithm/数组/283.移动零.md","ref":"algorithm/数组/283.移动零.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["chapter-fold","back-to-top-button","hide-element","code","splitter","pageview-count"],"pluginsConfig":{"chapter-fold":{},"splitter":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"back-to-top-button":{},"pageview-count":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"algorithm/数组/283.移动零.md","mtime":"2020-04-20T13:29:36.969Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-22T15:11:46.244Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"TCP","level":"1.3.1.1","depth":3,"next":{"title":"系统设计与实现","level":"1.4","depth":1,"path":"system_design/README.md","ref":"system_design/README.md","articles":[]},"previous":{"title":"计算机网络","level":"1.3.1","depth":2,"path":"os_network/network/README.md","ref":"os_network/network/README.md","articles":[{"title":"TCP","level":"1.3.1.1","depth":3,"path":"os_network/network/tcp_connect.md","ref":"os_network/network/tcp_connect.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["chapter-fold","back-to-top-button","hide-element","code","splitter","pageview-count"],"pluginsConfig":{"chapter-fold":{},"splitter":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"back-to-top-button":{},"pageview-count":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"os_network/network/tcp_connect.md","mtime":"2020-04-22T14:42:59.726Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-22T15:11:46.244Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
