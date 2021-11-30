@@ -1,0 +1,146 @@
+title: 解忧杂货铺
+subtitle: ''
+description: ''
+keywords: null
+author: ccqy66
+language: zh-CN
+timezone: 'UTC+8'
+url: http://ccqy66.com
+permalink: ':year/:month/:day/:title/'
+permalink_defaults: null
+pretty_urls:
+  trailing_index: true
+  trailing_html: true
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: ':lang'
+skip_render: null
+new_post_name: ':title.md'
+default_layout: post
+titlecase: false
+external_link:
+  enable: true
+  field: site
+  exclude: ''
+filename_case: 0
+render_drafts: false
+post_asset_folder: false
+relative_link: false
+future: true
+highlight:
+  enable: true
+  line_number: true
+  auto_detect: false
+  tab_replace: ''
+  wrap: true
+  hljs: false
+prismjs:
+  enable: false
+  preprocess: true
+  line_number: true
+  tab_replace: ''
+index_generator:
+  path: ''
+  per_page: 10
+  order_by: '-date'
+default_category: uncategorized
+category_map: null
+tag_map: null
+meta_generator: true
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+updated_option: mtime
+per_page: 10
+pagination_dir: page
+include: null
+exclude: null
+ignore: null
+theme: fluid
+dark_mode: ## 暗黑模式
+  enable: true
+  default: auto
+
+deploy:
+  type: git
+  repository: git@github.com:ccqy66/ccqy66.github.io.git
+  branch: master
+
+index:  ## 首页配置
+  slogan:
+    enable: true
+    text: Welcome to my 解忧杂货铺
+  banner_img: /img/top_bg.jpg  # 首页 Banner 头图，以下相同
+navbar:
+  blog_title: 解忧杂货铺
+
+
+post: ## 文章页配置
+  math:
+    enable: true
+    specific: false
+    engine: mathjax
+  comments:
+    enable: true
+    type: gitalk
+  meta:
+    author: # 作者，优先根据 front-matter 里 author 字段，其次是 hexo 配置中 author 值
+      enable: false
+    date: # 文章日期，优先根据 front-matter 里 date 字段，其次是 md 文件日期
+      enable: true
+      format: "dddd, MMMM Do YYYY, h:mm a"  # 格式参照 ISO-8601 日期格式化
+    wordcount: # 字数统计
+      enable: true
+      format: "{} 字"  # 显示的文本，{}是数字的占位符（必须包含)，下同
+    min2read: # 阅读时间
+      enable: true
+      format: "{} 分钟"
+    views: # 阅读次数
+      enable: false
+      source: "leancloud"  # 统计数据来源，可选：leancloud | busuanzi   注意不蒜子会间歇抽风
+      format: "{} 次"
+  footnote:
+    enable: true
+    header: ''
+gitalk: ## gitalk配置
+  clientID: 2d4fcd6255a56df462ce
+  clientSecret: 41ba6e491ab7b0b0e031f4bb05d9b9e6a880a5c7
+  repo: ccqy66.github.io
+  owner: ccqy66
+  admin: ['ccqy66']
+  language: zh-CN
+  labels: ['Gitalk']
+  perPage: 10
+  pagerDirection: last
+  distractionFreeMode: false
+  createIssueManually: true
+tag:
+  tagcloud:
+    min_font: 15
+    max_font: 30
+    unit: px  # 字号单位
+    start_color: "#BBBBEE"
+    end_color: "#337ab7"
+code:
+  copy_btn: true
+  highlight:
+    enable: true
+    line_number: true
+    lib: "highlightjs"
+    highlightjs:
+      style: 'Github Gist'
+      bg_color: false
+    prismjs:
+      style: "default"
+      preprocess: true
+about: ## 社交页
+  avatar: /img/avatar.jpeg
+  name: "ccqy66"
+  intro: "An elegant theme for Hexo"
+  icons:
+    - { class: 'iconfont icon-github-fill', link: 'https://github.com/ccqy66', tip: 'GitHub' }
+#    - { class: 'iconfont icon-douban-fill', link: 'https://douban.com', tip: '豆瓣' }
+#    - { class: 'iconfont icon-wechat-fill', qrcode: '/img/favicon.png' }
