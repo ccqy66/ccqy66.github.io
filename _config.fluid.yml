@@ -1,4 +1,4 @@
-title: 解忧杂货铺
+title: ccqy66
 subtitle: ''
 description: ''
 keywords: null
@@ -63,7 +63,7 @@ theme: fluid
 dark_mode: ## 暗黑模式
   enable: true
   default: auto
-
+favicon: /img/avatar.jpeg
 deploy:
   type: git
   repository: git@github.com:ccqy66/ccqy66.github.io.git
@@ -72,10 +72,16 @@ deploy:
 index:  ## 首页配置
   slogan:
     enable: true
-    text: Welcome to my 解忧杂货铺
+    text: Welcome to ccqy66's blog
+    api:
+      enable: true
+      url: "https://v1.hitokoto.cn/"
+      method: "GET"
+      headers: { }
+      keys: [ "hitokoto" ]
   banner_img: /img/top_bg.jpg  # 首页 Banner 头图，以下相同
 navbar:
-  blog_title: 解忧杂货铺
+  blog_title: ccqy66
 
 
 post: ## 文章页配置
@@ -136,6 +142,7 @@ code:
     prismjs:
       style: "default"
       preprocess: true
+
 about: ## 社交页
   avatar: /img/avatar.jpeg
   name: "ccqy66"
@@ -144,3 +151,8 @@ about: ## 社交页
     - { class: 'iconfont icon-github-fill', link: 'https://github.com/ccqy66', tip: 'GitHub' }
 #    - { class: 'iconfont icon-douban-fill', link: 'https://douban.com', tip: '豆瓣' }
 #    - { class: 'iconfont icon-wechat-fill', qrcode: '/img/favicon.png' }
+
+font:  # 主题字体配置
+  font_size: 18px        # 全局字号
+  font-family: "Lucida Console" # 全局字体族
+  code_font_size: 85%    # 代码的字号
