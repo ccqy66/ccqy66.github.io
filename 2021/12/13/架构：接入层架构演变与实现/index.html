@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="&amp;emsp;&amp;emsp;随着互联网行业的发展，服务端的架构也在不断随着行业的发展主键的完善，本文将介绍接入层架构的演变过程，以及各个过程遇到的核心问题。对接入层有一个整体的认知。 单机架构 &amp;emsp;&amp;emsp;有一天，你突然有一个比较好的想法，想实现你创业的梦想，于是你快速开发完的代码，并申请了域名 www.dream.com ，购买了一台云服务器，项目也很快上线。项目一经上线，获得了用户的一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="架构：接入层架构演变">
+<meta property="og:url" content="http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="ccqy66">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;随着互联网行业的发展，服务端的架构也在不断随着行业的发展主键的完善，本文将介绍接入层架构的演变过程，以及各个过程遇到的核心问题。对接入层有一个整体的认知。 单机架构 &amp;emsp;&amp;emsp;有一天，你突然有一个比较好的想法，想实现你创业的梦想，于是你快速开发完的代码，并申请了域名 www.dream.com ，购买了一台云服务器，项目也很快上线。项目一经上线，获得了用户的一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/access_layer/single_server.png">
+<meta property="og:image" content="http://example.com/img/access_layer/dns_balance.png">
+<meta property="og:image" content="http://example.com/img/access_layer/seven_balance.png">
+<meta property="og:image" content="http://example.com/img/access_layer/lvs_balance.png">
+<meta property="og:image" content="http://example.com/img/access_layer/lvs_keepalived.png">
+<meta property="og:image" content="http://example.com/img/access_layer/cdn_balance.png">
+<meta property="article:published_time" content="2021-12-13T11:34:40.000Z">
+<meta property="article:modified_time" content="2022-12-05T11:45:47.138Z">
+<meta property="article:author" content="ccqy66">
+<meta property="article:tag" content="架构">
+<meta property="article:tag" content="接入层">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/access_layer/single_server.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>架构：接入层架构演变</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/ccqy66">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2021/11/30/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%AD%98%E5%9C%A8IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&text=架构：接入层架构演变"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&title=架构：接入层架构演变"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&is_video=false&description=架构：接入层架构演变"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=架构：接入层架构演变&body=Check out this article: http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&title=架构：接入层架构演变"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&title=架构：接入层架构演变"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&title=架构：接入层架构演变"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&title=架构：接入层架构演变"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&name=架构：接入层架构演变&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&t=架构：接入层架构演变"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E6%9C%BA%E6%9E%B6%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">单机架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%BC%94%E5%8F%98%EF%BC%9ADNS%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">2.</span> <span class="toc-text">第一次演变：DNS负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%BC%94%E5%8F%98%EF%BC%9A7%E5%B1%82%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">3.</span> <span class="toc-text">第二次演变：7层负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%BC%94%E5%8F%98%EF%BC%9A4%E5%B1%82%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">4.</span> <span class="toc-text">第三次演变：4层负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E6%AC%A1%E6%BC%94%E5%8F%98%EF%BC%9ALVS-keepalived"><span class="toc-number">5.</span> <span class="toc-text">第四次演变：LVS+keepalived</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E6%AC%A1%E6%BC%94%E5%8F%98%EF%BC%9A%E5%B0%B1%E8%BF%91%E8%AE%BF%E9%97%AE"><span class="toc-number">6.</span> <span class="toc-text">第五次演变：就近访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        架构：接入层架构演变
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">ccqy66</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-12-13T11:34:40.000Z" itemprop="datePublished">2021-12-13</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E6%8E%A5%E5%85%A5%E5%B1%82/" rel="tag">接入层</a>, <a class="tag-link-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>&emsp;&emsp;随着互联网行业的发展，服务端的架构也在不断随着行业的发展主键的完善，本文将介绍接入层架构的演变过程，以及各个过程遇到的核心问题。对接入层有一个整体的认知。</p>
+<h3 id="单机架构"><a href="#单机架构" class="headerlink" title="单机架构"></a>单机架构</h3><center><img src="/img/access_layer/single_server.png" width="50%"></center>
+&emsp;&emsp;有一天，你突然有一个比较好的想法，想实现你创业的梦想，于是你快速开发完的代码，并申请了域名 www.dream.com ，购买了一台云服务器，项目也很快上线。项目一经上线，获得了用户的一致好评，用户量快速增长，单台服务也很快到达瓶颈，每到高峰期，你的网站都会宕机。于是你在思考如何解决当前的问题?
+
+<blockquote>
+<p>问题：单机瓶颈导致整个服务很快到达瓶颈。</p>
+</blockquote>
+<h3 id="第一次演变：DNS负载均衡"><a href="#第一次演变：DNS负载均衡" class="headerlink" title="第一次演变：DNS负载均衡"></a>第一次演变：DNS负载均衡</h3><p>&emsp;&emsp;既然单机存在瓶颈，那就可以引入多台服务器，并且各个服务器上部署相同的代码，来共同分担线上的流量。为了达到这个目标最简单的方式就是配置多个域名的A记录。因为DNS解析时会轮训配置的A记录，以此来达到负载均衡的目的。</p>
+<center><img src="/img/access_layer/dns_balance.png" width="50%"></center>
+&emsp;&emsp;通过向云提供商购买了3个外网IP和3台服务器，暂时缓解了高峰期的宕机问题。但是没过多久这3个服务器也到达了瓶颈。而且偶尔单机的故障也没有太好的解决办法，因为DNS的配置修改存在比较长的延迟。与此同时每次扩容都需要购买外网IP。作为一个初创团队，这也是一比开销。
+
+<blockquote>
+<p>问题：通过DNS做负载均衡存在成本高，延迟高的问题</p>
+</blockquote>
+<h3 id="第二次演变：7层负载均衡"><a href="#第二次演变：7层负载均衡" class="headerlink" title="第二次演变：7层负载均衡"></a>第二次演变：7层负载均衡</h3><p>&emsp;&emsp;于是，你开始了第二次架构演变，目前需要解决的问题是：如何能够快速的扩缩容？如何能够快速下线一台指定的服务器来解决单机问题？<br>&emsp;&emsp;通过调研你发现，nginx这个组件可以解决你的问题。通过nginx来承接外网流量，内网流量调度交由nginx来完成，在nginx这一层，可以灵活的解决上面提的问题。同时只需要用一个外网IP即可，节省了这部分的花销。</p>
+<center><img src="/img/access_layer/seven_balance.png" width="50%"></center>
+&emsp;&emsp;通过上面的调整，你可以快速对服务进行扩容，服务器的容量永远都不再是瓶颈了，你乐滋滋的看着自己的天才构想。但是好景不长，单台nginx成了瓶颈，nginx的宕机导致所有流量没有办法转发到服务器，整个项目出现了比较长的故障。
+
+<blockquote>
+<p>问题：Nginx虽然解决了后端实例的水平扩容问题，但是Nginx的单机问题成为整个服务的瓶颈。</p>
+</blockquote>
+<h3 id="第三次演变：4层负载均衡"><a href="#第三次演变：4层负载均衡" class="headerlink" title="第三次演变：4层负载均衡"></a>第三次演变：4层负载均衡</h3><p>&emsp;&emsp;既然1台Nginx存在瓶颈，也可以参考之前的思路，使用多台Nginx实例，如果引入多台Nginx，那么就需要考虑如果对Nginx上层的流量进行分流。幸运的是我们已经有了现成的方案<code>LVS</code>，<code>LVS</code>是一个四层负载均衡器，引入<code>LVS</code>后的接入层架构：</p>
+<center><img src="/img/access_layer/lvs_balance.png" width="50%"></center>
+
+<p>&emsp;&emsp;引入四层负载均衡器之后，我们方便的对7层负载均衡进行横向扩容。当<code>LVS</code>工作在<code>DR</code>模式时，只做请求转发，性能很高。在4层负载均衡之前再使用<code>DNS</code>轮训的方式，可以大大增加接入层的能力。但是又有问题了，<code>LVS</code>成了流量的入口，他的可用性直接觉得了整个架构的稳定性，虽然吞吐提高了，但是稳定性成了不确定的点。</p>
+<blockquote>
+<p>问题：LVS解决了7层负载均衡的水平扩容问题，但是单点<code>LVS</code>导致架构稳定性问题。</p>
+</blockquote>
+<h3 id="第四次演变：LVS-keepalived"><a href="#第四次演变：LVS-keepalived" class="headerlink" title="第四次演变：LVS+keepalived"></a>第四次演变：LVS+keepalived</h3><p>&emsp;&emsp;一台<code>LVS</code>存在单点问题，那么可以使用两台<code>LVS</code>实例，并且通过<code>keepalived</code>的方式将两台<code>LVS</code>做双机热备，当主机挂了，会通过<code>keepalived</code>自动选择备机继续提供服务，提高服务的容错性。</p>
+<center><img src="/img/access_layer/lvs_keepalived.png" width="80%"></center>
+&emsp;&emsp;至此，我们的服务架构已经初见规模，并且可以承担比较大的流量，服务的稳定性也有很大的提升。本以为可以稍作喘息，但新的挑战又来了。我们的产品中有大量的用户图片，而我们的用户来自全国各地，
+而我们的服务器只部署在特定的几个地方。导致用户的体检不一致，远离服务器的位置用户体检就会稍差一些。除此之外，过多的图片请求也带来了带宽的损耗。
+
+<h3 id="第五次演变：就近访问"><a href="#第五次演变：就近访问" class="headerlink" title="第五次演变：就近访问"></a>第五次演变：就近访问</h3><p>&emsp;&emsp;图片和视频是一种相对特殊的资源，一旦创建，除了删除是不会被修改的，所以就很方便做缓存。为了对于这些静态资源加速，我们可以进行特殊处理，把这些静态资源分发到全国各地，请求时根据用户请求的IP<br>地址来选择合适的数据存储位置。以此来提供更流畅的体验，这种技术我们称为<code>内容分发网络CDN</code>，现在我们的整个接入层架构如下：</p>
+<center><img src="/img/access_layer/cdn_balance.png" width="80%"></center>
+
+<p>&emsp;&emsp;对于静态资源，我们选择特定的域名，然后通过域名的<code>CNAME</code>记录指向我们的CDN加速域名，最后再通过<code>智能DNS</code>根据用户请求的IP地址，选择合适的 CDN节点，并实现了就近访问，与此同时，这些静态资源的请求也不会直接访问到我们的计算资源。节省了比较多的网络带宽。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>&emsp;&emsp;通过这几次的演变，我们搭建除了一个具有灵活伸缩性，高可用的接入层系统架构，但是这一些还远远没有结束，我们还是有很多的挑战需要面对。例如如何解决多运营商间的高速跨运营商访问？DNS域名解析出现问题如何容灾？剩下的部分先留个坑，后面再做分析。</p>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/ccqy66">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E6%9C%BA%E6%9E%B6%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">单机架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%BC%94%E5%8F%98%EF%BC%9ADNS%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">2.</span> <span class="toc-text">第一次演变：DNS负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%BC%94%E5%8F%98%EF%BC%9A7%E5%B1%82%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">3.</span> <span class="toc-text">第二次演变：7层负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%BC%94%E5%8F%98%EF%BC%9A4%E5%B1%82%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">4.</span> <span class="toc-text">第三次演变：4层负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E6%AC%A1%E6%BC%94%E5%8F%98%EF%BC%9ALVS-keepalived"><span class="toc-number">5.</span> <span class="toc-text">第四次演变：LVS+keepalived</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E6%AC%A1%E6%BC%94%E5%8F%98%EF%BC%9A%E5%B0%B1%E8%BF%91%E8%AE%BF%E9%97%AE"><span class="toc-number">6.</span> <span class="toc-text">第五次演变：就近访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&text=架构：接入层架构演变"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&title=架构：接入层架构演变"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&is_video=false&description=架构：接入层架构演变"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=架构：接入层架构演变&body=Check out this article: http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&title=架构：接入层架构演变"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&title=架构：接入层架构演变"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&title=架构：接入层架构演变"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&title=架构：接入层架构演变"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&name=架构：接入层架构演变&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/12/13/%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98%E4%B8%8E%E5%AE%9E%E7%8E%B0/&t=架构：接入层架构演变"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2017-2022
+    ccqy66
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/ccqy66">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'ccqy66/ccqy66.github.io';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-light';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>
