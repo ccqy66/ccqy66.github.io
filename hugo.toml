@@ -1,51 +1,40 @@
-baseURL = "http://example.org/"
+baseURL = "https://ccqy66.com"
 DefaultContentLanguage = "zh" # Theme's display language, supports: en, fr, zh, zh-hant
 languageCode = "en-us"
 title = "ccqy66"
 copyright = "This is a customized copyright."
-theme = "diary"
+theme = "paper"
 # googleAnalytics = "UA-123-45"
 
-[markup]
-  [markup.highlight]
-    codeFences = true
-    guessSyntax = false
-    hl_Lines = ""
-    lineNoStart = 1
-    lineNos = false
-    lineNumbersInTable = true
-    noClasses = true
-    style = "perldoc"
-    tabWidth = 4
-
 [params]
-subtitle = "Studying, Thinking, Sharing"
-enableGitalk = false
-enableGiscus = true
+# color style
+  color = 'linen'                           # linen, wheat, gray, light
 
-# Microsoft Clarity (https://clarity.microsoft.com/) is a free user behavior recording and analytics tool
-clarity = "abcdefghzd"
+  # header social icons
+  twitter = 'chenchen839'               # twitter.com/YOUR_TWITTER_ID
+  github = 'github.com/ccqy66'                 # github.com/YOUR_GITHUB_ID
+  rss = true                                # show rss icon
 
-# Twitter Card and Open Graph settings
-enableOpenGraph = true
-enableTwitterCards = true
-title = "My Blog" # will set 'og:site_name'
-description = "My HomePage Description"  # will set 'og:description'
+  # home page profile
+  avatar = 'https://gravatar.com/avatar/02c38efdd6988c54577cf225d808794a?size=256'                 # gravatar email or image url
+  name = 'ccqy66'
+  bio = 'Studying, Thinking, Sharing'
 
-[params.gitalk]
-  owner = "user"
-  repo = "repo name"
-  client_id = "your client id"
-  client_secret = "your client secret"
+  # misc
+  disableHLJS = true                        # disable highlight.js
+  disablePostNavigation = true              # disable post navigation
+  monoDarkIcon = true                       # show monochrome dark mode icon
+  gravatarCdn = 'GRAVATAR_CDN_LINK'         # e.g. 'https://cdn.v2ex.com/gravatar/'
+  math = true                               # enable KaTeX math typesetting globally
+  localKatex = false                        # use local KaTeX js/css instead of CDN
+  graphCommentId = "YOUR_GRAPH_COMMENT_ID"  # use graph comment (disqus alternative)
+  favicon = "favicon.ico"                   # customize the default favicon
+  appleTouchIcon = "apple-touch-icon.png"   # customize the default Apple touch icon
+
 [taxonomies]
-   tag = "tags"
-   category = "categories"
-
-[params.utterances]
-repo="your repo"
-term="[ENTER TERM HERE]"
-label="your label"
-theme="github-light"
+category = "categories"
+tag = "tags"
+series = "series"
 
 # Please visit https://giscus.app/ to generate settings.
 [params.giscus]
