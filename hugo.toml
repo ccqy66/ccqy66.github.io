@@ -2,69 +2,72 @@ baseURL = "https://ccqy66.com"
 DefaultContentLanguage = "zh" # Theme's display language, supports: en, fr, zh, zh-hant
 languageCode = "en-us"
 title = "ccqy66"
-copyright = "This is a customized copyright."
-theme = "paper"
+theme = "typo"
 # googleAnalytics = "UA-123-45"
 
 [params]
-# color style
-  color = 'linen'                           # linen, wheat, gray, light
+# Meta description
+description = "Studying, Thinking, Sharing"
 
-  # header social icons
-  twitter = 'chenchen839'               # twitter.com/YOUR_TWITTER_ID
-  github = 'github.com/ccqy66'                 # github.com/YOUR_GITHUB_ID
-  rss = true                                # show rss icon
+# Appearance settings
+theme = 'auto'
 
-  # home page profile
-  avatar = 'https://gravatar.com/avatar/02c38efdd6988c54577cf225d808794a?size=256'                 # gravatar email or image url
-  name = 'ccqy66'
-  bio = 'Studying, Thinking, Sharing'
+# Intro on main page, content is markdown
+homeIntroTitle = 'Hi!'
+homeIntroContent = """
+I am an Italian Software Engineer with a strong foundation in computer science and a passion for solving complex problems.
+I am interested in a range of topics, including algorithms, distributed systems, databases, and information retrieval.
+"""
 
-  # misc
-  disableHLJS = true                        # disable highlight.js
-  disablePostNavigation = true              # disable post navigation
-  monoDarkIcon = true                       # show monochrome dark mode icon
-  gravatarCdn = 'GRAVATAR_CDN_LINK'         # e.g. 'https://cdn.v2ex.com/gravatar/'
-  math = true                               # enable KaTeX math typesetting globally
-  localKatex = false                        # use local KaTeX js/css instead of CDN
-  graphCommentId = "YOUR_GRAPH_COMMENT_ID"  # use graph comment (disqus alternative)
-  favicon = "favicon.ico"                   # customize the default favicon
-  appleTouchIcon = "apple-touch-icon.png"   # customize the default Apple touch icon
+# Collection to display on home
+homeCollectionTitle = 'Posts'
+homeCollection = 'posts'
+
+# Lists parameters
+paginationSize = 100
+listSummaries = false
+listDateFormat = '2 Jan 2006'
+
+# Breadcrumbs
+breadcrumbs = true
+toc = true
+math = true
+readTime = true
 
 [taxonomies]
 category = "categories"
 tag = "tags"
-series = "series"
 
 # Please visit https://giscus.app/ to generate settings.
 [params.giscus]
-    data_repo="ccqy66/ccqy66.github.io"
-    data_repo_id="MDEwOlJlcG9zaXRvcnk4OTkzNzQwNA=="    
-    data_category="General"
-    data_category_id="DIC_kwDOBVxV_M4Cfk4e"
-    data_mapping="pathname"
-    data_strict="0"
-    data_reactions_enabled="1"
-    data_emit_metadata="0"
-    data_input_position="bottom"
-    data_theme="preferred_color_scheme"
-    data_lang="zh-CN"
+    enable=true
+    repo="ccqy66/ccqy66.github.io"
+    repoId="MDEwOlJlcG9zaXRvcnk4OTkzNzQwNA=="    
+    category="General"
+    categoryId="DIC_kwDOBVxV_M4Cfk4f"
+    mapping="pathname"
+    strict="0"
+    reactionsEnabled="1"
+    emitMetadata="0"
+    inputPosition="top"
+    theme="preferred_color_scheme"
+    lang="zh-CN"
     crossorigin="anonymous"
 
+# Main menu pages
+[[params.menu]]
+name = "home"
+url = "/"
 
-[[menu.main]]
-url = "/categories"
-name = "分类"
-weight = 2
-[[menu.main]]
-url = "/tags"
-name = "标签"
-weight = 3
-[[menu.main]]
+[[params.menu]]
+name = "posts"
 url = "/posts"
-name = "文章"
-weight = 1
-[[menu.main]]
-url = "/index.xml"
-name = "RSS Feed"
-weight = 4
+
+[[params.menu]]
+name = "about"
+url = "/about"
+
+
+[markup]
+[markup.highlight]
+style = 'algol'
